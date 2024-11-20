@@ -1,3 +1,5 @@
+name: deploy lambda
+
 on:
   push:
     branches:
