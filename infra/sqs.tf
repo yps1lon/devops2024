@@ -113,3 +113,31 @@ resource "aws_lambda_event_source_mapping" "lambda_sqs_trigger" {
   batch_size       = 10
   enabled          = true
 }
+
+
+resource "aws_sns_topic" "cloudwatch_alarm_topic" {
+  name = "cloudwatch-alarm-topic"
+}
+
+
+resource "aws_sns_topic_subscription" "cloudwatch_alarm_subscription" {
+  topic_arn = aws_sns_topic.cloudwatch_alarm_topic.arn
+  protocol  = "email"
+  endpoint  = "sillygoober@goobster.com"  
+}
+
+
+resource "aws_cloudwatch_metric_alarm" "sqs_age_alarm" {
+  alarm_name          = "SQSApproximateAgeOfOldestMessage"
+  metric_name         = "ApproximateAgeOfOldestMessage"
+  namespace           = "AWS/SQS"
+  statistic           = "Maximum"
+  dimensions = {
+    QueueName = aws_sqs_queue.lambda_sqs_queue.name
+  }
+  period              = 60
+  evaluation_periods  = 1
+  threshold           = 90
+  comparison_operator = "GreaterThanThreshold"
+  alarm_actions       = [aws_sns_topic.cloudwatch_alarm_topic.arn]
+}
