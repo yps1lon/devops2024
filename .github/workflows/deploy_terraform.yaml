@@ -27,16 +27,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
-        
-      - name: terraform cd
-        run: cd infra
-        
+
       - name: tf init
-        run: terraform init
+        run: cd infra && terraform init
 
       - name: tf plan
-        run: terraform plan
+        run: cd infra && terraform plan
 
       - name: tf apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve
+        run: cd infra && terraform apply -auto-approve
