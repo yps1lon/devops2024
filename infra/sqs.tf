@@ -123,7 +123,7 @@ resource "aws_sns_topic" "cloudwatch_alarm_topic" {
 resource "aws_sns_topic_subscription" "cloudwatch_alarm_subscription" {
   topic_arn = aws_sns_topic.cloudwatch_alarm_topic.arn
   protocol  = "email"
-  endpoint  = "bema015@egms.no"  
+  endpoint  = "benjamin.mahic1@gmail.com"  
 }
 
 
