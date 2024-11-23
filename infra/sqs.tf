@@ -1,3 +1,7 @@
+variable "alarm_email"{
+    type = string
+  }
+
 terraform {
   required_version = ">= 1.9.0"
   
@@ -123,7 +127,7 @@ resource "aws_sns_topic" "cloudwatch_alarm_topic" {
 resource "aws_sns_topic_subscription" "cloudwatch_alarm_subscription" {
   topic_arn = aws_sns_topic.cloudwatch_alarm_topic.arn
   protocol  = "email"
-  endpoint  = "benjamin.mahic1@gmail.com"  
+  endpoint  = var.alarm_email 
 }
 
 
