@@ -1,24 +1,24 @@
-  OPG 1A
-    https://15vvf1l045.execute-api.eu-west-1.amazonaws.com/Prod/generate-image
-
-  1B
-    https://github.com/yps1lon/devops2024/actions/runs/11845619412/job/33011480515
+- OPG 1
+	- 1A https://15vvf1l045.execute-api.eu-west-1.amazonaws.com/Prod/generate-image
+ 	- 1B  https://github.com/yps1lon/devops2024/actions/runs/11845619412/job/33011480515
+		
 	
-OPG2A
-https://eu-west-1.console.aws.amazon.com/sqs/v3/home?region=eu-west-1#/queues/https%3A%2F%2Fsqs.eu-west-1.amazonaws.com%2F244530008913%2Fimage-gen-4/send-receive
- 
- 
- 	2B
-https://github.com/yps1lon/devops2024/actions/runs/12018518541/job/33503163705
-https://github.com/yps1lon/devops2024/actions/runs/11937161109/job/33272482541
+- OPG 2
+	- 2A https://eu-west-1.console.aws.amazon.com/sqs/v3/home?region=eu-west-1#/queues/https%3A%2F%2Fsqs.eu-west-1.amazonaws.com%2F244530008913%2Fimage-gen-4/send-receive
+   
+ 	- 2B 	https://github.com/yps1lon/devops2024/actions/runs/12018518541/job/33503163705
+   		https://github.com/yps1lon/devops2024/actions/runs/11937161109/job/33272482541
 
-OPG3
-fikk ikke til
+	
 
-OPG4
-Se TF kode, terraform.tfvars og sqs.tf
+- 	OPG3
+	- fikk ikke til
 
-OPG 5
+-	OPG4
+	- Se TF kode, terraform.tfvars og sqs.tf. Sto ikke beskrevet i wiseflow hvordan dette skulle leveres
+
+  - OPG 5
+
 CI/CD og automatisering
 Mikrotjenester trenger ofte at alle servicene og funksjonene er bygd individuelt fra hverandre. Dette fører til et større arbeidslass fordi da må en teste og deploye dette også evt til en Docker eller en annen type platform som feks Kubernetes. Det er positivt på den måten at utviklerne selv får mer kontroll over hva som foregår, men gir ulempen over at det blir mer arbeid å gjøre i form av maintnence, kordinasjon og ikke minst tid. Serverless derimot er bygd for rask utvikling, noe som gjør at en del arbeidsoppgaver faller bort bare på grunn av bedre automatisering.
 
