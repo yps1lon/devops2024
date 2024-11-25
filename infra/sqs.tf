@@ -1,12 +1,20 @@
 variable "alarm_email"{
     type = string
   }
+  
+  variable "bucket_tf"{
+    type = string
+  }
+  
+  variable "bucket_lambda"{
+    type = string
+  }
 
 terraform {
   required_version = ">= 1.9.0"
   
   backend "s3" {
-    bucket = "pgr301-2024-terraform-state"
+    bucket = var.bucket_tf
     key    = "kn4/terraform.tfstate"
     region = "eu-west-1"
   }
@@ -24,7 +32,7 @@ provider "aws" {
 }
 
 data "aws_s3_bucket" "lambda_bucket" {
-  bucket = "pgr301-couch-explorers"
+  bucket = var.bucket_lambda
 }
 
 resource "aws_iam_role" "lambda_role" {
@@ -45,7 +53,7 @@ resource "aws_iam_role" "lambda_role" {
 
 resource "aws_iam_role_policy" "lambda_policy" {
   name = "LambdaSqsPolicy"
-  role = aws_iam_role.lambda_role.id
+    role = aws_iam_role.lambda_role.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
