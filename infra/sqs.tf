@@ -1,38 +1,5 @@
-variable "alarm_email"{
-    type = string
-  }
-  
-  variable "bucket_tf"{
-    type = string
-  }
-  
-  variable "bucket_lambda"{
-    type = string
-  }
-
-terraform {
-  required_version = ">= 1.9.0"
-  
-  backend "s3" {
-    bucket = var.bucket_tf
-    key    = "kn4/terraform.tfstate"
-    region = "eu-west-1"
-  }
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "5.74.0"
-    }
-  }
-}
-
-provider "aws" {
-  region = "eu-west-1"
-}
-
-data "aws_s3_bucket" "lambda_bucket" {
-  bucket = var.bucket_lambda
+variable "alarm_email" {
+  type = string
 }
 
 resource "aws_iam_role" "lambda_role" {
@@ -53,7 +20,7 @@ resource "aws_iam_role" "lambda_role" {
 
 resource "aws_iam_role_policy" "lambda_policy" {
   name = "LambdaSqsPolicy"
-    role = aws_iam_role.lambda_role.id
+  role = aws_iam_role.lambda_role.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -86,13 +53,6 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "logs:PutLogEvents"
         ]
         Resource = "*"
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "bedrock:InvokeModel"
-        ]
-        Resource = "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-image-generator-v1"
       }
     ]
   })
@@ -100,23 +60,19 @@ resource "aws_iam_role_policy" "lambda_policy" {
 
 resource "aws_sqs_queue" "lambda_sqs_queue" {
   name = "image-gen-4"
-  visibility_timeout_seconds = 60
 }
 
 resource "aws_lambda_function" "image_generation_lambda" {
-  function_name    = "ImageGenerationLambdaV2"
-  role             = aws_iam_role.lambda_role.arn
-  handler          = "lambda_sqs.lambda_handler"
-  runtime          = "python3.9"
-  timeout          = 60
-  memory_size      = 512
+  function_name = "ImageGenerationLambdaV2"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "lambda_sqs.lambda_handler"
+  runtime       = "python3.9"
+  filename      = "lambda_sqs.zip"
   environment {
     variables = {
       BUCKET_NAME = data.aws_s3_bucket.lambda_bucket.bucket
     }
   }
-  filename         = "lambda_sqs.zip"
-  source_code_hash = filebase64sha256("lambda_sqs.zip")
 }
 
 resource "aws_lambda_event_source_mapping" "lambda_sqs_trigger" {
@@ -126,18 +82,15 @@ resource "aws_lambda_event_source_mapping" "lambda_sqs_trigger" {
   enabled          = true
 }
 
-
 resource "aws_sns_topic" "cloudwatch_alarm_topic" {
   name = "cloudwatch-alarm-topic"
 }
 
-
 resource "aws_sns_topic_subscription" "cloudwatch_alarm_subscription" {
   topic_arn = aws_sns_topic.cloudwatch_alarm_topic.arn
   protocol  = "email"
-  endpoint  = var.alarm_email 
+  endpoint  = var.alarm_email
 }
-
 
 resource "aws_cloudwatch_metric_alarm" "sqs_age_alarm" {
   alarm_name          = "SQSApproximateAgeOfOldestMessage"
