@@ -5,11 +5,11 @@
     https://github.com/yps1lon/devops2024/actions/runs/11845619412/job/33011480515
 
   OPG2A
-https://eu-west-1.console.aws.amazon.com/sqs/v3/home?region=eu-west-1#/queues/https%3A%2F%2Fsqs.eu-west-1.amazonaws.com%2F244530008913%2Fimage-gen-4/send-receive
+	https://eu-west-1.console.aws.amazon.com/sqs/v3/home?region=eu-west-1#/queues/https%3A%2F%2Fsqs.eu-west-1.amazonaws.com%2F244530008913%2Fimage-gen-4/send-		receive
 
-2B
-https://github.com/yps1lon/devops2024/actions/runs/12018518541/job/33503163705
-https://github.com/yps1lon/devops2024/actions/runs/11937161109/job/33272482541
+	2B
+		https://github.com/yps1lon/devops2024/actions/runs/12018518541/job/33503163705
+		https://github.com/yps1lon/devops2024/actions/runs/11937161109/job/33272482541
 
 OPG3
 fikk ikke til
